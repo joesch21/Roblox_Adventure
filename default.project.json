@@ -2,9 +2,15 @@
   "name": "AdventureGame",
   "tree": {
     "$className": "DataModel",
-    "ReplicatedStorage": {},
+    "ReplicatedStorage": {
+      "Remotes": {"$path": "src/ReplicatedStorage/Remotes"},
+      "Modules": {"$path": "src/ReplicatedStorage/Modules"}
+    },
     "ServerScriptService": {
       "$path": "src/ServerScriptService"
+    },
+    "ServerStorage": {
+      "Prefabs": {"$path": "src/ServerStorage/Prefabs"}
     },
     "StarterPlayer": {
       "StarterPlayerScripts": {
