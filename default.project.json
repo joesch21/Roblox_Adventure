@@ -1,21 +1,18 @@
 {
-  "name": "AdventureGame",
+  "name": "Roblox Adventure",
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {
-      "Remotes": {"$path": "src/ReplicatedStorage/Remotes"},
-      "Modules": {"$path": "src/ReplicatedStorage/Modules"}
+      "Remotes": { "$path": "src/ReplicatedStorage/Remotes" },
+      "Modules": { "$path": "src/ReplicatedStorage/Modules" },
+      "Models": { "$path": "assets/models" }
     },
-    "ServerScriptService": {
-      "$path": "src/ServerScriptService"
-    },
+    "ServerScriptService": { "$path": "src/ServerScriptService" },
     "ServerStorage": {
-      "Prefabs": {"$path": "src/ServerStorage/Prefabs"}
+      "Prefabs": { "$path": "src/ServerStorage/Prefabs" }
     },
     "StarterPlayer": {
-      "StarterPlayerScripts": {
-        "$path": "src/StarterPlayer/StarterPlayerScripts"
-      }
+      "StarterPlayerScripts": { "$path": "src/StarterPlayer/StarterPlayerScripts" }
     }
   }
 }
