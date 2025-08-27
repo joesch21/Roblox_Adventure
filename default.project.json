@@ -4,7 +4,8 @@
     "$className": "DataModel",
     "ReplicatedStorage": {
       "Remotes": {"$path": "src/ReplicatedStorage/Remotes"},
-      "Modules": {"$path": "src/ReplicatedStorage/Modules"}
+      "Modules": {"$path": "src/ReplicatedStorage/Modules"},
+      "Models": {"$path": "assets/models"}
     },
     "ServerScriptService": {
       "$path": "src/ServerScriptService"
