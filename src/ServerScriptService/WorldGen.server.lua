@@ -8,6 +8,8 @@ World:ClearAllChildren()
 math.randomseed(tick())
 
 local Scatter = require(script.Parent:WaitForChild("_ScatterUtil"))
+local Config  = require(script.Parent["_Config.module"])
+local Spawner = require(script.Parent["_Spawner.util"])
 
 local function mkPart(name, size, cf, color, material, anchored, parent)
     local p = Instance.new("Part")
@@ -90,7 +92,17 @@ local half = wallLen/2 - 6
 tower(-half, -half); tower(half, -half); tower(-half, half); tower(half, half)
 
 -- Keep
-mkPart("Keep", Vector3.new(24, 28, 24), CFrame.new(castleCenter + Vector3.new(0, 14, 0)), Color3.fromRGB(175,175,175), Enum.Material.Concrete, true, Castle)
+local keep = mkPart("Keep", Vector3.new(24, 28, 24), CFrame.new(castleCenter + Vector3.new(0, 14, 0)), Color3.fromRGB(175,175,175), Enum.Material.Concrete, true, Castle)
+
+-- Optional castle prefab override
+local Models = ReplicatedStorage:FindFirstChild("Models")
+local CastlePrefab = Models and Models:FindFirstChild("Castle")
+if CastlePrefab then
+    keep:Destroy()
+    local yawRad = math.rad(Config.CASTLE_YAW or 0)
+    local cf = CFrame.new(Config.CASTLE_POS or Vector3.new(180,0,40)) * CFrame.Angles(0, yawRad, 0)
+    Spawner.CloneAt(CastlePrefab, Castle, cf, Config.CASTLE_SCALE, Config.CASTLE_SCALE)
+end
 
 -- Gate Model with open/close door part (hinge-less slide), plus a ProximityPrompt
 local Gate = Instance.new("Model"); Gate.Name = "Gate"; Gate.Parent = Castle
