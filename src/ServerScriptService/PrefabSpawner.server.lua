@@ -65,29 +65,43 @@ end
 -- Resolve final placement settings for a given prefab (model) and its rule
 local function resolvePlacement(prefab: Instance, rule)
     -- Attributes override defaults
-    local count  = tonumber(prefab:GetAttribute("Count")) or rule.count or 1
-    local tgtFol = prefab:GetAttribute("TargetFolder") or rule.folder or "Nature"
-    local area   = rule.area or Config.SCATTER_AREA
-    local minS   = tonumber(prefab:GetAttribute("MinScale")) or rule.minScale or 1.0
-    local maxS   = tonumber(prefab:GetAttribute("MaxScale")) or rule.maxScale or 1.0
-    local yawOnly= (prefab:GetAttribute("YawOnly") ~= nil) and (prefab:GetAttribute("YawOnly") == true) or (rule.yawOnly ~= false)
+    local count   = tonumber(prefab:GetAttribute("Count")) or rule.count or 1
+    local tgtFol  = prefab:GetAttribute("TargetFolder") or rule.folder or "Nature"
+    local area    = rule.area or Config.SCATTER_AREA
+    local minS    = tonumber(prefab:GetAttribute("MinScale")) or rule.minScale or 1.0
+    local maxS    = tonumber(prefab:GetAttribute("MaxScale")) or rule.maxScale or 1.0
+    local yawOnly = (prefab:GetAttribute("YawOnly") ~= nil) and (prefab:GetAttribute("YawOnly") == true) or (rule.yawOnly ~= false)
 
-    -- Fixed placement overrides (if X/Y/Z set on the prefab)
-    local hasFixed = (prefab:GetAttribute("X") ~= nil) or (prefab:GetAttribute("Z") ~= nil) or (prefab:GetAttribute("Y") ~= nil)
-    local fx = tonumber(prefab:GetAttribute("X")) or 0
-    local fy = tonumber(prefab:GetAttribute("Y")) or 0
-    local fz = tonumber(prefab:GetAttribute("Z")) or 0
-    local yaw = tonumber(prefab:GetAttribute("Yaw")) or nil -- degrees
+    -- Fixed placement overrides (Attributes > rule.fixedPos)
+    local attrHasFixed = (prefab:GetAttribute("X") ~= nil) or (prefab:GetAttribute("Y") ~= nil) or (prefab:GetAttribute("Z") ~= nil)
+    local fx  = tonumber(prefab:GetAttribute("X"))
+    local fy  = tonumber(prefab:GetAttribute("Y"))
+    local fz  = tonumber(prefab:GetAttribute("Z"))
+    local fay = tonumber(prefab:GetAttribute("Yaw")) -- degrees
+
+    local fixedPos = nil
+    if attrHasFixed then
+        fixedPos = Vector3.new(fx or 0, fy or 0, fz or 0)
+    elseif rule.fixedPos then
+        fixedPos = rule.fixedPos
+    end
+
+    local fixedYaw = nil
+    if fay ~= nil then
+        fixedYaw = fay
+    elseif rule.fixedYaw ~= nil then
+        fixedYaw = rule.fixedYaw
+    end
 
     return {
-        count = count,
+        count        = count,
         targetFolder = tgtFol,
-        area = area,
-        minScale = minS,
-        maxScale = maxS,
-        yawOnly = yawOnly,
-        fixed = hasFixed and Vector3.new(fx, fy, fz) or nil,
-        fixedYaw = yaw, -- degrees
+        area         = area,
+        minScale     = minS,
+        maxScale     = maxS,
+        yawOnly      = yawOnly,
+        fixed        = fixedPos,   -- Vector3 or nil
+        fixedYaw     = fixedYaw,   -- degrees or nil
     }
 end
 
@@ -114,7 +128,7 @@ for _,prefab in ipairs(Models:GetChildren()) do
         end
 
         local yawRad
-        if settings.fixedYaw then
+        if settings.fixedYaw ~= nil then
             yawRad = math.rad(settings.fixedYaw)
         elseif settings.yawOnly ~= false then
             yawRad = math.rad(math.random(0,359))

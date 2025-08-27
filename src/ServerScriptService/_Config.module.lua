@@ -14,5 +14,10 @@ return {
     AVOID_BANDS = {
         -- { axis = "Z", center = -40, margin = 50 },
     },
+
+    -- === NEW: Castle controls ===
+    CASTLE_SCALE = 1.6,                         -- uniform scale (1.0 = original; try 1.3–2.0)
+    CASTLE_POS   = Vector3.new(180, 0, 40),     -- default castle position
+    CASTLE_YAW   = 0,                           -- degrees (0 keeps current facing)
 }
 
